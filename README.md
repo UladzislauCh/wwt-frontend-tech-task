@@ -52,6 +52,12 @@ If you install any new technology, describe why you added it and what it’s use
 
 Also, please let us know upfront whether you would like detailed feedback (what exactly was wrong and a score), or if a simple acceptance or rejection response is sufficient
 
+## Implementation notes
+
+Technologies added on top of the initial setup, and why they were added, are described in [TECHNOLOGIES.md](TECHNOLOGIES.md).
+
+There is no real backend: the filters API is mocked with MSW, so the app works out of the box in development and in the production build.
+
 ## How to set up the project
 
 All scripts described below (except for _**dependency installation**_) can be used with pnpm instead of npm. They work the same way
