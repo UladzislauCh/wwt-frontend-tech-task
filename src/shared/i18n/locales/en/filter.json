@@ -1,1 +1,16 @@
-{}
+{
+	"openButton": "Open filters",
+	"selectedFilters": "Selected filters",
+	"title": "Filter",
+	"apply": "Apply",
+	"clearAll": "Clear all parameters",
+	"loading": "Loading filters…",
+	"loadError": "Failed to load filters",
+	"retry": "Try again",
+	"offlineError": "No internet connection. Filters will load once you are back online",
+	"confirm": {
+		"title": "Do you want to apply new filter",
+		"cancel": "Use old filter",
+		"apply": "Apply new filter"
+	}
+}
