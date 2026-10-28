@@ -8,28 +8,35 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [18.x, 20.x]
+        node-version: [20.x, 22.x]
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
+
+      # Version is taken from the "packageManager" field in package.json
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
 
       - name: Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: ${{matrix.node-version}}
-
-      - name: Install pnpm
-        run: npm install -g pnpm
+          node-version: ${{ matrix.node-version }}
+          cache: pnpm
 
       - name: Install dependencies
-        run: pnpm install
+        run: pnpm install --frozen-lockfile
 
-      - name: Run build
-        run: npm run build
-
-      - name: Run format
-        run: npm run format:check:all
+      # Fast checks first, so the job fails early
+      - name: Check format
+        run: pnpm format:check:all
 
       - name: Run lint
-        run: npm run lint:all
+        run: pnpm lint:all
+
+      - name: Run tests
+        run: pnpm vitest run
+
+      # Includes type checking (tsc)
+      - name: Run build
+        run: pnpm build
