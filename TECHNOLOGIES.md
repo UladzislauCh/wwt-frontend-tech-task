@@ -27,3 +27,9 @@ Used together in the `cn()` helper (`src/shared/lib/cn.ts`) to build `className`
 `@typescript-eslint/parser` and `@typescript-eslint/eslint-plugin` were updated from 6.21 to 8.
 
 Version 6 supports TypeScript `<5.4`, while the project uses TypeScript 5.8, so every lint run printed an "unsupported TypeScript version" warning in the terminal (it is shown only in an interactive terminal, so CI logs don't have it). Version 8 supports TypeScript `<6.1` and still works with ESLint 8 and the existing `.eslintrc.cjs`; the code needed no changes.
+
+## Updated: @testing-library/react 14 → 16, added @testing-library/dom
+
+Version 14 supports only React 18, while the project uses React 19, so a clean `pnpm install` reported unmet peer dependencies. Version 16 supports React 18 and 19. Since version 16, `@testing-library/dom` is a peer dependency instead of a bundled one, so it is installed explicitly.
+
+With the new version React reports state updates made outside `act()`; the one test that starts a refetch directly through the query client wraps it in `act`.

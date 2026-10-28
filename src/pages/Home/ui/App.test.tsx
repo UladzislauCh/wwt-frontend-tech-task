@@ -3,7 +3,7 @@ import {
 	QueryClientProvider,
 	onlineManager
 } from '@tanstack/react-query'
-import { fireEvent, render, screen } from '@testing-library/react'
+import { act, fireEvent, render, screen } from '@testing-library/react'
 import { HttpResponse, http } from 'msw'
 
 import { useFilterStore } from '@/features/filter'
@@ -301,13 +301,18 @@ describe('Filters loading', () => {
 		await openFilters()
 		toggle('Gym')
 
-		// E.g. react-query refetches when the user returns to the browser tab
-		const refetch = queryClient.refetchQueries()
+		// E.g. react-query refetches when the user returns to the browser tab.
+		// The refetch is started outside testing-library helpers, so its state updates are wrapped in act
+		let refetch: Promise<void> = Promise.resolve()
+
+		act(() => {
+			refetch = queryClient.refetchQueries()
+		})
 
 		expect(screen.queryByRole('status')).not.toBeInTheDocument()
 		expect(screen.getByRole('checkbox', { name: 'Gym' })).toBeChecked()
 
-		await refetch
+		await act(() => refetch)
 
 		expect(screen.queryByRole('status')).not.toBeInTheDocument()
 		expect(screen.getByRole('checkbox', { name: 'Gym' })).toBeChecked()
