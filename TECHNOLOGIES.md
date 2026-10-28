@@ -1,6 +1,6 @@
 # Added technologies
 
-Technologies added on top of the initial project setup, and why.
+Technologies added on top of the initial project setup or updated in it, and why.
 
 ## msw
 
@@ -21,3 +21,9 @@ Used together in the `cn()` helper (`src/shared/lib/cn.ts`) to build `className`
 
 - `clsx` joins classes and skips falsy values, which makes conditional classes readable
 - `tailwind-merge` resolves conflicting Tailwind classes so the last one wins. Without it, `className="px-4"` passed to a component with `px-6` inside gives an unpredictable result, because the winner is decided by the order of rules in the generated CSS, not by the order in the class string
+
+## Updated: @typescript-eslint 6 → 8
+
+`@typescript-eslint/parser` and `@typescript-eslint/eslint-plugin` were updated from 6.21 to 8.
+
+Version 6 supports TypeScript `<5.4`, while the project uses TypeScript 5.8, so every lint run printed an "unsupported TypeScript version" warning in the terminal (it is shown only in an interactive terminal, so CI logs don't have it). Version 8 supports TypeScript `<6.1` and still works with ESLint 8 and the existing `.eslintrc.cjs`; the code needed no changes.
