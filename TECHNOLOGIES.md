@@ -33,3 +33,14 @@ Version 6 supports TypeScript `<5.4`, while the project uses TypeScript 5.8, so 
 Version 14 supports only React 18, while the project uses React 19, so a clean `pnpm install` reported unmet peer dependencies. Version 16 supports React 18 and 19. Since version 16, `@testing-library/dom` is a peer dependency instead of a bundled one, so it is installed explicitly.
 
 With the new version React reports state updates made outside `act()`; the one test that starts a refetch directly through the query client wraps it in `act`.
+
+## Updated: CI pipeline
+
+`.github/workflows/pipeline.yml` was updated:
+
+- **Node 22 and 24 instead of 18 and 20.** Node 18 and 20 reached end of life (April 2025 and April 2026). Node 22 and 24 are maintained LTS versions (until April 2027 and April 2028), and the matrix checks that the project works on both of them (one job per version)
+- **pnpm version is pinned** in the `packageManager` field of `package.json` and installed with `pnpm/action-setup`. Previously the latest pnpm was installed on every run, so a new pnpm release could break the build
+- **`pnpm install --frozen-lockfile`** fails if `pnpm-lock.yaml` doesn't match `package.json` instead of silently updating it
+- **Dependencies are cached** by `actions/setup-node`, so repeated runs are faster
+- **Tests are run** before the build; type checking is part of the build (`tsc`)
+- **Actions updated to versions running on Node 24:** `actions/checkout@v7`, `actions/setup-node@v7`, `pnpm/action-setup@v6`. Older versions run on the deprecated Node 20 (or older) runtime, and GitHub marks every run with a deprecation warning
